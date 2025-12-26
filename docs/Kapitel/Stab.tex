@@ -1,0 +1,47 @@
+\section{Bsp 1: Stab}
+
+\subsection{Modell}
+Erstes Beispiel, ein Stab, entland dessen sich die Wärme ausbreitet. Mit einfacher
+Wärmeleitungsgleichung ohne Quellen und konstantem Diffusionskoeffizienten.
+
+\[
+    \overline{D}_{ii}^n  = 1 ~~ \forall i,n\, ,  ~~
+    f = 0
+\]
+
+Damit reduziert sich die zu lösende Gleichung \eqref{eq1:Wärmeleitungsgleichung}:
+
+\begin{equation}
+    \partial_t c =  \Delta c
+\end{equation}
+
+
+\subsection{Randbedingungen}
+
+Als Anfangstemperaturverteilung soll gelten:
+
+\[
+    c(0, x) = 0
+\]
+
+Als Randbedingungen des Rohres wollen wir keinen Temperaturfluss über dessen Mantel und einen konstanten Fluss über eine einzelne Seite, wir setzen an einer der Randflächen:
+
+\[
+    \overline{D} \nabla c \cdot n = -1
+\]
+
+Das negative Vorzeichen bewirkt, dass es sich um einen Temperaturfluss 
+aus dem Volumen handelt. Ein positives Vorzeichen würde bedeuten, dass 
+auf dem Rand der Gradient $\nabla c > 0$, damit ist außerhalb des Volumens die 
+Temperatur größer als innerhalb. Da die Wärme entgegen dem 
+Temperaturgradienten fließt, steigt die Temperatur im Inneren des Volumens.
+
+Die einzigen Quellen soll ein konstanter Temperaturwert an der anderen Randfläche des Rohres sein.
+Damit vereinfacht sich die allgemeine Formel \eqref{eq2:FEM} zu:
+
+\[
+\int_{\Omega}  c^{n+1} \, v  + h \nabla c^{n+1} \nabla v \, dV           
+        = \int_{\Omega}  c^n \, v \, dV +
+        h\, \int_{\partial \Omega} \, v \, dS 
+\]
+

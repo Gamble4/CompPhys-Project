@@ -1,0 +1,6 @@
+docs/*
+!docs/*.tex
+!docs/Kapitel
+
+src/*
+!src/*.py

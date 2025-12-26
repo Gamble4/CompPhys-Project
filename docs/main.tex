@@ -1,0 +1,32 @@
+\documentclass{article}
+
+\input{myconfig.tex}
+\input{mymacros.tex}
+
+\begin{document}
+
+\pagestyle{fancy}
+\makeheader{sample text}
+\fancyfoot{} % clear all footer fields
+\fancyfoot[C]{\thepage}
+
+\lstset{style=mystyle}
+
+% title page
+\title{Sample Title}
+\author{Benedikt Hoffmann}
+\date{2023}
+
+\maketitle
+\clearpage
+% --- body ---
+
+\input{Kapitel/Grundlagen.tex}
+\input{Kapitel/Stab.tex}
+\input{Kapitel/KonvektiverRand.tex}
+
+\clearpage
+\printbibliography
+
+
+\end{document}

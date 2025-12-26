@@ -1,0 +1,8 @@
+% for examples on headers, visit: https://www.overleaf.com/learn/latex/Headers_and_footers#Headers_and_footers_in_standard_LaTeX_document_classes_and_page_styles
+\newcommand{\makeheader}[1]
+{
+    % clears old header and creates new one
+    % fit for two-side style
+    \fancyhead{} % clear all header fields
+    \fancyhead[RO,LE]{\textbf{#1}}    
+}

@@ -1,0 +1,160 @@
+\section{Kapitel 1: Grundlagen} \label{sec:Kapitel1}
+
+\subsection{Definitionen und Notation}
+
+Im Folgenden werden folgende Bezeichnungen verwendet:
+
+\[
+    t \in \mathbb{R}_+, ~~~ x \in \Omega \subset \mathbb{R}^3 
+\]
+
+\begin{definition}[Temperaturfeld]
+    \[
+        c : \mathbb{R}_+ \times \Omega \rightarrow \mathbb{R}_+
+    \]
+    Im Allgemeinen von der Form $c(t, x)$.
+\end{definition}
+
+\begin{definition}[Diffusionskoeffizient]
+    \[
+        \overline{D} : \mathbb{R}_+ \times  \Omega \times \mathbb{R}_+ \rightarrow \Omega
+    \]
+    Im Allgemeinen ein Tensor zweiter Stufe von der Form $\overline{D}(t, x, c)$.
+\end{definition}
+
+Gibt die unterschiedliche Diffusion in verschiedenen Teilen des Materials an. Kann mithile 
+der Tensorform Diffusionskoeffizienten, die in Ort und Durchflussrichtung variieren berücksichtigen.
+e.g $\overline{D}_{xy}$ gibt den Diffusionskoeffizienten einer in y-Richtung orientierten Fläche des Volumens, für einen Strom, der in x-Richtung fließt. %Im Falle des karthesischen Koordinaten,
+%also das die  Indices $ i, j \in \{x, y, z \}$, sind nimmt $\overline{D}$ Diagonalgestalt an.
+
+Im Rahmen dieser Arbeit wird der Diffusionskoeffizient stets in Diagonalgestalt auftreten  
+entweder als Skalar ( = alle Diagonaleinträge gleich sowie konstant, Material wird als lokal isotrop angenommen), oder als Diagonalmatrix 
+der Form $\overline{D}_{ii}(t, x, c) = g_i(t, x, c)$. Mit $g_i$ den entsprechenden Funktionen. Querströme werden nicht berücksichtigt.
+
+\begin{definition}[Reaktionsterm]
+    \[
+        f : \mathbb{R}_+ \times  \Omega \times \mathbb{R}_+ \rightarrow \mathbb{R}
+    \]
+    Im Allgemeinen von der Form $f(t, x, c)$. 
+\end{definition}
+
+Gibt mögliche Quellterme an, darunter können auch chemische Reaktionen fallen.
+
+
+\begin{definition}[Wärmestromdichte]
+    \[
+        \partial_t{q}(t, x) := - \lambda \nabla c(t, x)
+    \]
+    $\lambda$ die Wärmeleitfähigkeit. Wird auch als Fourier'sches Gesetz bezeichnet.
+\end{definition}
+
+Im engen Zusammenhang dazu, und später für die Neumann-Randbedingungen relevant.
+
+\begin{definition}[Wärmediffusivität]
+    \[
+        \overline{D} = \frac{\lambda}{\rho c_{\rho}}
+    \]
+    $\lambda$ die Wärmeleitfähigkeit. $\rho$ die Dichte, $\rho_c$ die 
+    spezifische Wärmekapazität.
+\end{definition}
+
+Dieser Zusammenhang gilt insbesondere in Festkörpern, der obere Ausdruch ist noch allgemeiner. Die spezifische Wärmekapazität kann selbst eine Funktion der Temperatur sein, so auch die Dichte des Materials. Wir wollen hier allerdings 
+annehmen, dass diese Größen konstant bleiben, da auch die Temperaturunterschiede nicht so groß sind.
+
+\subsection{Zentrale Gleichungen}
+
+Damit können wir die zentrale Wärmeleitungsgleichung schreiben:
+\begin{definition}[Wärmeleitungsgleichung]
+    \begin{equation}
+        \partial_t c = \nabla ( \overline{D} \,  \nabla c) + f
+        \label{eq1:Wärmeleitungsgleichung}        
+    \end{equation}    
+\end{definition}
+
+
+\subsection{Zeitintegration}
+
+Wir verwenden als Zeitintegration die implizite Euler-Methode. Diese ist ein geeignetes Verfahren für Probleme, die nach einiger Zeit 
+einen stationären Zustand einnehmen. Außerdem ist sie einfach zu Implementieren und günstig in der Berechnung, da sie nur eine Funktionsauswertung benötigt.
+
+
+\begin{definition}[Implizite Euler-Methode]
+    \[
+        u^{n+1} = u^n + h f(t^{n+1}, u^{n+1})
+    \]
+    
+\end{definition}
+
+\begin{satz}
+    Die implizite Euler-Methode ist A-stabil und von der Ordnung $O(h)$.
+\end{satz}
+
+\begin{proof}
+    Siehe Vorlesung
+\end{proof}
+
+Das unterliegende Problem ist $\partial_t u = f(t, u)$. Obere Indices geben
+die zeitlichen Schritte. $h$ ist der Zeitschritt.
+
+
+Darin wird die diskretisierte Wärmeleitungsgleichung eingesetzt:
+
+\[
+    c^{n+1} = c^n + h (  \nabla ( \overline{D}^{n+1} \,  \nabla c^{n+1}) + f^{n+1} )        
+\]
+
+Diese Gleichung kommt in den Galerkin-Ansatz, um daraus eine FEM-Methode 
+zu erhalten:
+\begin{equation}    
+    \begin{aligned}        
+        \int_{\Omega}  c^{n+1} \, v \, dV
+        &= \int_{\Omega}  c^n \, v \, dV + h \int_{\Omega} (  \nabla ( \overline{D}^{n+1} \,  \nabla c^{n+1}) + f^{n+1} ) \, v \, dV \\
+        &= \int_{\Omega}  (c^n + h f^{n+1}) \, v \, dV +
+        h \int_{\partial \Omega} \overline{D}^{n+1} (\nabla c^{n+1} \cdot n) \, v \, dS 
+        - h \int_{ \Omega} \overline{D}^{n+1} \nabla c^{n+1} \nabla v \, dV 
+    \end{aligned}
+    \label{eq2:FEM}    
+\end{equation}
+
+
+
+
+
+\subsection{Zu den Randbedingungen}
+
+
+Besondere Bedeutung besitzt folgender Ausdruck aus Gleichung \eqref{eq2:FEM}:
+
+\[
+    \overline{D}^{n+1} (\nabla c^{n+1} \cdot n)
+\]  
+
+er gibt den ''Temperaturfluss'' durch den Rand des Gebietes. Dies führt uns zu der Definition.
+
+
+\begin{definition}[Temperaturfluss]
+    \[
+        \overline{D} (\nabla c \cdot n)
+    \]
+    Wobei $n$ der Flächennormalvektor der Oberfläche ist, die durchströmt
+    wird.
+\end{definition}
+
+
+Der Ausdruck hängt mit der Wärmestromdichte am Rand zusammen.
+
+
+\[
+    \partial_t q|_{\partial \Omega} = - \lambda \nabla c = - \rho c_\rho \overline{D} (\nabla c \cdot n)
+\]  
+
+
+\subsection{Problemstellung}
+
+Wir wollen die Wärmeleitung in Feststoffen untersuchen. Anfangs ein einfaches Beispiel eines Rohres 
+und anschließend eventuell ein einfaches elektronisches Bauteil.
+
+Dazu muss zu jedem Zeitschritt die rechte Seite der Gleichung \eqref{eq1:Wärmeleitungsgleichung} 
+gelöst werden. Dafür wird Firedrake verwendet. Die Zeitintegration kann mittels eines einfachen Integrators, zum Beispiel dem Euler-Verfahren gelöst werden, oder auch mit PETSC. 
+
+
