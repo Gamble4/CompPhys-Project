@@ -27,10 +27,11 @@ Als Anfangstemperaturverteilung soll gelten:
 Als Randbedingungen des Rohres wollen wir keinen Temperaturfluss über dessen Mantel und einen konstanten Fluss über eine einzelne Seite, wir setzen an einer der Randflächen:
 
 \[
-    \overline{D} \nabla c \cdot n = -1
+    \overline{D} \nabla c \cdot n = -1 
+    \stackrel{\eqref{eq3:Randterm}}{\rightarrow} \partial_t q|_{\partial \Omega} = \rho c_\rho
 \]
 
-Das negative Vorzeichen bewirkt, dass es sich um einen Temperaturfluss 
+Das negative Vorzeichen bewirkt, dass es sich um einen Abfluss an Wärme 
 aus dem Volumen handelt. Ein positives Vorzeichen würde bedeuten, dass 
 auf dem Rand der Gradient $\nabla c > 0$, damit ist außerhalb des Volumens die 
 Temperatur größer als innerhalb. Da die Wärme entgegen dem 
@@ -41,7 +42,30 @@ Damit vereinfacht sich die allgemeine Formel \eqref{eq2:FEM} zu:
 
 \[
 \int_{\Omega}  c^{n+1} \, v  + h \nabla c^{n+1} \nabla v \, dV           
-        = \int_{\Omega}  c^n \, v \, dV +
-        h\, \int_{\partial \Omega} \, v \, dS 
+        = \int_{\Omega}  c^n \, v \, dV 
+        - h\, \int_{\partial \Omega} \, v \, dS 
 \]
 
+\subsection{Ergebnis}
+
+Das Problem mit einem Zeitschritt von $h=0.2$ nach 100 Iterationen:
+
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{../Images/stab0.png}
+    \caption{Stab nach einem Zeitschritt}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{../Images/stab99.png}
+    \caption{Stab nach Zeitschritt 99}
+\end{figure}
+
+\subsection{Bemerkungen}
+
+Eine Wärmediffusivität von D = 1 [$\text{m}^2$/s] ist unrealistisch hoch, daher breiten sich die 
+Temperaturunterschiede auch dermaßen schnell innerhalb des Volumens aus.
+Zum Vergleich hätte Eisen bei Raumtemperatur (20°C) eine Wärmediffusivität 
+von $2.28 \cdot 10^{-5} $ [$\text{m}^2$/s] 

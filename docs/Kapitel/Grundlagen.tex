@@ -126,27 +126,15 @@ zu erhalten:
 Besondere Bedeutung besitzt folgender Ausdruck aus Gleichung \eqref{eq2:FEM}:
 
 \[
-    \overline{D}^{n+1} (\nabla c^{n+1} \cdot n)
+    \overline{D} (\nabla c \cdot n)
 \]  
 
-er gibt den ''Temperaturfluss'' durch den Rand des Gebietes. Dies führt uns zu der Definition.
+er hängt mit der Wärmestromdichte am Rand zusammen.
 
-
-\begin{definition}[Temperaturfluss]
-    \[
-        \overline{D} (\nabla c \cdot n)
-    \]
-    Wobei $n$ der Flächennormalvektor der Oberfläche ist, die durchströmt
-    wird.
-\end{definition}
-
-
-Der Ausdruck hängt mit der Wärmestromdichte am Rand zusammen.
-
-
-\[
+\begin{equation}
     \partial_t q|_{\partial \Omega} = - \lambda \nabla c = - \rho c_\rho \overline{D} (\nabla c \cdot n)
-\]  
+    \label{eq3:Randterm}
+\end{equation}
 
 
 \subsection{Problemstellung}
