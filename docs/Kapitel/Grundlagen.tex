@@ -61,6 +61,18 @@ Im engen Zusammenhang dazu, und später für die Neumann-Randbedingungen relevan
 Dieser Zusammenhang gilt insbesondere in Festkörpern, der obere Ausdruch ist noch allgemeiner. Die spezifische Wärmekapazität kann selbst eine Funktion der Temperatur sein, so auch die Dichte des Materials. Wir wollen hier allerdings 
 annehmen, dass diese Größen konstant bleiben, da auch die Temperaturunterschiede nicht so groß sind.
 
+
+
+\begin{definition}[charekteristisches Funktional]
+    \[
+        X_{[t_0, t_1]}[f(t)] := \begin{cases}
+            f(t), & \text{falls } t \in [t_0, t_1] \\
+            0, & \text{sonst}
+        \end{cases}
+    \]
+\end{definition}
+
+
 \subsection{Zentrale Gleichungen}
 
 Damit können wir die zentrale Wärmeleitungsgleichung schreiben:
@@ -122,6 +134,11 @@ zu erhalten:
 
 \subsection{Zu den Randbedingungen}
 
+Hier wird der Rand des Gebietes $\Omega$ mit $\Gamma$ bezeichnet.
+
+\[
+    \partial \Omega := \Gamma
+\]
 
 Besondere Bedeutung besitzt folgender Ausdruck aus Gleichung \eqref{eq2:FEM}:
 
@@ -132,9 +149,40 @@ Besondere Bedeutung besitzt folgender Ausdruck aus Gleichung \eqref{eq2:FEM}:
 er hängt mit der Wärmestromdichte am Rand zusammen.
 
 \begin{equation}
-    \partial_t q|_{\partial \Omega} = - \lambda \nabla c = - \rho c_\rho \overline{D} (\nabla c \cdot n)
+    \partial_t q|_{\Gamma} = - \lambda \nabla c = - \rho c_\rho \overline{D} (\nabla c \cdot n)
     \label{eq3:Randterm}
 \end{equation}
+
+\subsection{Robin-Randbedingungen und konvektiver Rand}
+
+Sind eine Mischung aus Dirichlet- sowie Neumann Randbedingungen 
+und haben die allgemeine Form:
+
+\[
+    a c(t, x) + b \frac{\partial c(t, x)}{\partial n} = g(t, x), ~~~ x \in \Gamma
+\]
+
+Wobei $c, g$ Funktionen sind und $a, b$ Konstanten.
+
+Sie werden verwendet um einen konvektiven Rand zu simulieren. 
+Dieser lässt sich im einfachen Falle von laminaren, stationären Strömen schreiben als:
+
+\begin{equation*}
+    \begin{aligned}
+        b \frac{\partial c}{\partial n} &= -\partial_t q_n 
+        = g - ac \\
+        \text{setze: } b &= \lambda,~~ g = a \, c|_\Gamma, ~~ \alpha := a/\lambda   \\
+        \partial_t q_n &= \alpha (c - c|_\Gamma)
+    \end{aligned}
+\end{equation*}
+
+Die Konstante kann für verschiedene Abschnitte des Randes $\Gamma_a \subset \Gamma$ unterschiedlich festgelegt werden, damit:
+
+\begin{equation}
+    \partial_t q_n = \alpha(x) (c(t, x) - c(t, x)|_\Gamma)
+    \label{eq:KonvektiverRand}
+\end{equation}
+
 
 
 \subsection{Problemstellung}

@@ -1,7 +1,57 @@
 \section{Konvektiver Rand}
 
-Es werden Robin-Randbedingungen verwendet, um einen konvektiven Rand 
-zu simulieren.
+Es werden Robin-Randbedingungen verwendet, um einen konvektiven Rand zu simulieren, siehe \eqref{eq:KonvektiverRand}.
+Wir setzen für dieses Beispiel:
+
+Die verwendeten Größen:
+\[
+    \begin{array}{lcr}
+        R_I & ... & \text{innerer Radius des Zylinders} \\
+        R_O & ... & \text{äußerer Radius des Zylinders} \\
+        T_W & ... & \text{Wassertemperatur } = 10 \\
+        T_0 & ... & \text{Basistemperatur } = 40 \\
+        \rho & ... & \text{Zylinderkoordinate } = \sqrt{x^2 + y^2}
+    \end{array}
+\]
+
+
+\[
+    c|_\Gamma = c(t, x), ~~ c = T_W. \text{(Wassertemperatur)}, ~~ \alpha = 1
+\]
+
+Da wir in der Differentialgleichung allerdings den Term $ \overline{D} (\nabla c) \cdot n\propto - \partial_t q_n$ haben, dreht sich in der Implementation das Vorzeichen.
+
+Als Anfangsbedingungen:
+
+\[
+    c(0, x) = 20 \cos(\frac{\rho }{(2 \pi R_I)}) + T_0
+\]
+Außerdem für die isolierende Schicht ein lineares Profil der Form:
+\[
+    c(0, x) = T_0 - \frac{\rho - R_I}{R_O - R_I} (T_0 - T_W)
+\]
+
+Außerdem wollen wir einen Quellterm $f$:
+
+\[
+    f(t, x) = X_{[10, 20]}[\frac{c(0, x)}{5}]
+\]
+
+Dieser wirkt in einem Untervolumen.
+
+Die zu lösende Gleichung nimmt die folgende Form an:
+
+\begin{equation}
+    \begin{aligned}
+        &\int_{\Omega}  c^{n+1} \, v \, + h\overline{D}^{n+1} \nabla c^{n+1} \nabla v \, dV         
+        = \int_{\Omega}  (c^n + h f^{n+1}) \, v \, dV +
+        h \int_{\partial \Omega} \overline{D}^{n+1} (-c^{n+1}+10)\, v \, dS \\
+        &\int_{\Omega}  c^{n+1} \, v \, + h\overline{D}^{n+1} \nabla  c^{n+1} \nabla v \, dV + h \int_{\partial \Omega}  \overline{D}^{n+1} c^{n+1} \, v \, dS 
+        = \int_{\Omega}  (c^n + h f^{n+1}) \, v \, dV
+        + 10h  \int_{\partial \Omega} \overline{D}^{n+1} \, v \, dS
+    \end{aligned}
+\end{equation}
+
 
 
 possible sources:

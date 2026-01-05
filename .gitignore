@@ -5,4 +5,6 @@ docs/*
 src/*
 !src/*.py
 
+sandbox/
+
 state.pvsm
