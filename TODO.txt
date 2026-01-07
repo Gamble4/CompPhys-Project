@@ -1,0 +1,24 @@
+-- optimiere Kühlung --
+	optimiere die Geometrie für Kühlung. -> Form der Kühlplatte
+	optimiere den Koeffizienten für die Kühlflüssigkeit.
+	Vergleich was ist besser, Kühlflüssigkeit optimieren 
+	oder Geometrie, was auch immer besser ist.
+
+
+-- Berechne die Wärmeströme explizit über die konvektive Schicht --
+	Kann diesen Wärmestrom zeichnen,
+	über Projektion kann partial_t q 
+	gewonnen werden.
+
+
+-- Zeitintegrationen vergleichen --
+	Eventuell auch mit CN-Methode
+	Oder mit PETSC zeitintegration, sind sehr schnell
+	vor allem für große Probleme relevant
+	Dazu berechne Form über FEM und gebe diesen Zeitschritt 
+	an eine time-integration libraray (PETSC)
+
+
+-- Vergleich mit einem festen Kühlkörper --
+	Dieser hätte dann zBsp einen Dirichlet Rand
+
