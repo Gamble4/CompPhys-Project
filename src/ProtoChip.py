@@ -54,7 +54,7 @@ D.interpolate(fd.Constant(0.6),  subset=mesh.cell_subset(3))
 D.interpolate(fd.Constant(1),  subset=mesh.cell_subset(4))
 
 outfile = fd.VTKFile(filename)
-outfile.write(c0) # to capture the initial conditions as well
+#outfile.write(c0) # to capture the initial conditions as well
 print("done")
 
 
