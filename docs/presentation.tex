@@ -1,0 +1,27 @@
+\section{Präsentation}
+
+Ideen für die Präsentation
+
+\begin{itemize}
+    \item FEM Formulierung für CN aufschreiben?
+    \item Vergleich gekühlt und ungekühlt
+    \item Vergleich der drei bei gleichen Prozessen Kühlemthoden
+    \item firedrake optimisation und firebar graphen
+    \item Mass Lumping und Mudot - Ku = f Formulierung
+    \item Robin Randbedingungen
+\end{itemize}
+
+
+Zu Vergleich mit den gleichen Prozessen. 
+Auf jeden Fall auf die Diffusionskonstante aufpassen! 0.01 für CPU embed
+da Heatpipe 1 haben
+für die CPU immer die gleiche Verwenden.
+D groß in Heatpipe
+D kleiner in stock cooler am Rand. (als Heatpipe)
+
+Bei Lumping, besondere Massematrix (Zeilensumme) in der CG1 Basis, das die Knoten
+\begin{equation}
+    \sum_j \int \phi_i \phi_j dx = \int \phi_i, ~~ \sum_j \phi_j = 1
+\end{equation}
+nur auf dem Punkt selbst 1 sind, an den Nachbarn sonst 0.
+geht nicht mehr auf höheren Ordnungen, e.g quadratische Lagr-Interpolation

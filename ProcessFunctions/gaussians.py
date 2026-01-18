@@ -1,18 +1,43 @@
 import matplotlib.pyplot as plt
-import math
 import numpy as np
 
 
-def processFunction(t, tmax=0., sigma=1, C=10., offset=10.):
-   o = C * np.exp(-1/2 * (t-tmax)**2 / sigma**2) + offset
-   return o
+def pF(t, tmax, sigma, C, offset=0.):
+    return C * np.exp(-1/2 * (t-tmax)**2 / sigma**2) + offset
+   
 
-t = np.linspace(0, 10, 50)
-f1 = processFunction(t, 2, 0.1)
-f2 = processFunction(t, 5, 1)
+def cumulInteg(t, f):
+    N = len(t)
+    intervals = N-1
+    h = t[1] - t[0]
+    out = np.zeros(shape=(N,))
+    extra = (t[1:] - t[:-1]) / 2 + t[:-1]
+    intval = np.zeros(shape=(intervals+N,))
+    intval[0::2] = t
+    intval[1::2] = extra 
+    for i in range(0, int((len(intval)-1)/2), 2):
+        out[i] = f[i] + 4*f[i+1] + f[i+2]
+    return np.cumsum(out) * h/3
 
-fig, ax = plt.subplots()
-ax.plot(t, f1, c="b", label="f1")
-ax.plot(t, f2)
-ax.legend()
+
+
+N = 199 # must be uneven for Simpson
+t = np.linspace(0, 30, N)
+
+C0 = 35
+f = pF(t, 15, 4, 3 , 0) + pF(t, 5, 3, 4, 0)
+I = cumulInteg(t, f) + C0
+samples = [5, 10, 15, 20]
+Iint = np.interp(samples, t, I)
+print("\n".join([f"t :  {samples[i]:2d}, I : {Iint[i]}" for i in range(len(samples))]))
+
+
+fig, (ax1, ax2) = plt.subplots(ncols=2)
+ax1.plot(t, f, c="b", label="Quellterm")
+ax1.set_xlabel("t [s]") 
+ax1.set_ylabel(r"$\partial_t T$ [K/s]")
+ax2.plot(t, I, c="k", label="Integ. Quelle")
+ax2.set_xlabel("t [s]")
+ax2.set_ylabel(" T [K]")
+ax1.legend()
 plt.show()
