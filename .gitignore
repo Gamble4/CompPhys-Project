@@ -15,3 +15,6 @@ meshes/*
 sandbox/
 
 state.pvsm
+
+analysis/test
+analysis/test.pvd
